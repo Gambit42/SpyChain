@@ -41,7 +41,7 @@ const Login = ({ setIsLogged }) => {
     };
 
     axios
-      .post("http://localhost:4000/login", userLoginData, config)
+      .post("https://spy-chain.herokuapp.com/login", userLoginData, config)
       .then((res) => {
         console.log(res.data);
         setIsLogged(true);

@@ -52,7 +52,11 @@ const Register = ({ setIsLogged }) => {
       }, 5000);
     } else {
       axios
-        .post("http://localhost:4000/register", userRegisterData, config)
+        .post(
+          "https://spy-chain.herokuapp.com/register",
+          userRegisterData,
+          config
+        )
         .then((res) => {
           console.log(res.data);
           setIsLogged(true);
