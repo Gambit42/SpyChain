@@ -39,12 +39,16 @@ app.use(
 
 app.use(
   session({
+    store: store,
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-    store: store,
+    saveUninitialized: true,
+    proxy: true, // Required for Heroku & Digital Ocean (regarding X-Forwarded-For)
     cookie: {
-      maxAge: 1000 * 60 * 60 * 100,
+      httpOnly: true,
+      secure: true,
+      maxAge: 1000 * 60 * 60 * 48,
+      sameSite: "none",
     },
   })
 );
