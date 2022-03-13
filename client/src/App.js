@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import Login from "./pages/Login";
 // import Register from "./pages/Register";
 // import Transactions from "./pages/Transactions";
-import Error from "./pages/Error";
+// import Error from "./pages/Error";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import Loading from "./pages/Loading";
@@ -17,6 +17,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Register = lazy(() => import("./pages/Register"));
 const Login = lazy(() => import("./pages/Login"));
 const Transactions = lazy(() => import("./pages/Transactions"));
+const Error = lazy(() => import("./pages/Error"));
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
@@ -60,7 +61,7 @@ function App() {
             <Route
               path="/"
               element={
-                <Suspense fallback="Loading">
+                <Suspense fallback={<Loading />}>
                   <Dashboard />
                 </Suspense>
               }
@@ -68,7 +69,7 @@ function App() {
             <Route
               path="/transact"
               element={
-                <Suspense fallback="Loading">
+                <Suspense fallback={<Loading />}>
                   <Transactions />
                 </Suspense>
               }
@@ -78,7 +79,7 @@ function App() {
             <Route
               path="/login"
               element={
-                <Suspense fallback="Loading">
+                <Suspense fallback={<Loading />}>
                   <Login setIsLogged={setIsLogged} />
                 </Suspense>
               }
@@ -86,7 +87,7 @@ function App() {
             <Route
               path="/register"
               element={
-                <Suspense fallback="Loading">
+                <Suspense fallback={<Loading />}>
                   <Register setIsLogged={setIsLogged} />
                 </Suspense>
               }
