@@ -1,7 +1,12 @@
 import React from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Loading = () => {
-  return <div>Wait lang po loading pa.</div>;
+  return (
+    <div className="h-screen w-screen flex flex-col justify-center items-center">
+      <ClipLoader color="#4F9FF6" loading={true} css={override} size={150} />
+    </div>
+  );
 };
 
 export default Loading;
