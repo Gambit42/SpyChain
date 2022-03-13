@@ -16,7 +16,7 @@ const Portfolio = ({ portfolios, setPortfolios, loading }) => {
     total: 0,
     profitLoss: 0,
     totalSpent: 0,
-    percentage: 0,
+    profitLoss_percentage: 0,
   });
 
   useEffect(() => {
@@ -120,7 +120,7 @@ const Portfolio = ({ portfolios, setPortfolios, loading }) => {
                     })}`}</h1>
                   </div>
                   {portfolioLel.profitLoss_percentage === Infinity ||
-                  portfolioLel.profitLoss_percentage === Infinity ? (
+                  portfolioLel.profitLoss_percentage === undefined ? (
                     portfolioLel.profitLoss_percentage >= 0 ? (
                       <div className="ml-4 h-8 rounded-md w-18 p-2 text-white bg-green-500 flex flex-row items-center">
                         <TiArrowSortedUp className="" />

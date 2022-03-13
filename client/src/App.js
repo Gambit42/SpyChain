@@ -1,17 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import "./styles/tailwind.css";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+// import Dashboard from "./pages/Dashboard";
+// import Login from "./pages/Login";
+// import Register from "./pages/Register";
+// import Transactions from "./pages/Transactions";
 import Error from "./pages/Error";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
-import Transactions from "./pages/Transactions";
 import Loading from "./pages/Loading";
 import { useDispatch } from "react-redux";
 import { getUser, changeActive } from "./redux/actions";
+
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Register = lazy(() => import("./pages/Register"));
+const Login = lazy(() => import("./pages/Login"));
+const Transactions = lazy(() => import("./pages/Transactions"));
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
@@ -52,17 +57,39 @@ function App() {
       {!loading ? (
         <Routes>
           <Route element={<PrivateRoute isLogged={isLogged} />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/transact" element={<Transactions />} />
+            <Route
+              path="/"
+              element={
+                <Suspense fallback="Loading">
+                  <Dashboard />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/transact"
+              element={
+                <Suspense fallback="Loading">
+                  <Transactions />
+                </Suspense>
+              }
+            />
           </Route>
           <Route element={<PublicRoute isLogged={isLogged} />}>
             <Route
               path="/login"
-              element={<Login setIsLogged={setIsLogged} />}
+              element={
+                <Suspense fallback="Loading">
+                  <Login setIsLogged={setIsLogged} />
+                </Suspense>
+              }
             />
             <Route
               path="/register"
-              element={<Register setIsLogged={setIsLogged} />}
+              element={
+                <Suspense fallback="Loading">
+                  <Register setIsLogged={setIsLogged} />
+                </Suspense>
+              }
             />
           </Route>
           <Route path="*" element={<Error />} />
