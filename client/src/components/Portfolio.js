@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeActive } from "../redux/actions";
 import PortfoliosModal from "./modals/PortfoliosModal";
-import axios from "axios";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import AddNewAssetModal from "./modals/AddNewAssetModal";
 import Table from "./Table";
 
-const Portfolio = ({ portfolios, setPortfolios, loading }) => {
+const Portfolio = ({ portfolios, setPortfolios, loading, currencyValue }) => {
   const dispatch = useDispatch();
   const currency = useSelector((state) => state.currency);
   const activePortfolio = useSelector((state) => state.activePortfolio);
-  const [currencyValue, setCurrencyValue] = useState(0);
   const [portfolioLel, setPortfolioLel] = useState({
     total: 0,
     profitLoss: 0,
@@ -20,26 +18,12 @@ const Portfolio = ({ portfolios, setPortfolios, loading }) => {
   });
 
   useEffect(() => {
-    axios
-      .get(`https://api.coingecko.com/api/v3/coins/tether`)
-      .then((res) => {
-        setCurrencyValue(
-          res.data.market_data.current_price[currency.symbol.toLowerCase()]
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    console.log("Redux is being recognized");
-  }, [currency]);
-
-  useEffect(() => {
     //Reset Value for Re-render. Without this, prevState will keep on adding up.
     setPortfolioLel({
       total: 0,
       profitLoss: 0,
       totalSpent: 0,
-      percentage: 0,
+      profitLoss_percentage: 0,
     });
 
     const calculateTotalHoldings_Portfolio = (asset) => {
@@ -119,8 +103,8 @@ const Portfolio = ({ portfolios, setPortfolios, loading }) => {
                       maximumFractionDigits: 2,
                     })}`}</h1>
                   </div>
-                  {portfolioLel.profitLoss_percentage === Infinity ||
-                  portfolioLel.profitLoss_percentage === undefined ? (
+                  {portfolioLel.profitLoss_percentage !== Infinity ||
+                  portfolioLel.profitLoss_percentage !== undefined ? (
                     portfolioLel.profitLoss_percentage >= 0 ? (
                       <div className="ml-4 h-8 rounded-md w-18 p-2 text-white bg-green-500 flex flex-row items-center">
                         <TiArrowSortedUp className="" />
@@ -132,7 +116,7 @@ const Portfolio = ({ portfolios, setPortfolios, loading }) => {
                       </div>
                     ) : (
                       <div className="ml-4 h-8 rounded-md w-18 p-2 text-white bg-red-500 flex flex-row items-center ">
-                        <TiArrowSortedDown className="" />) : (
+                        <TiArrowSortedDown className="" />
                         <h1 className="font-bold text-white text-sm rounded text-center ">
                           {`${Math.abs(
                             portfolioLel.profitLoss_percentage
@@ -157,8 +141,8 @@ const Portfolio = ({ portfolios, setPortfolios, loading }) => {
                       <h1
                         className={`${
                           portfolioLel.profitLoss >= 0
-                            ? "text-green-500"
-                            : "text-red-500"
+                            ? "text-green-600"
+                            : "text-red-600"
                         } font-bold`}
                       >{`${portfolioLel.profitLoss >= 0 ? "+" : "-"} ${
                         currency.sign

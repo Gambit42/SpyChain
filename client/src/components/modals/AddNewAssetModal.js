@@ -31,7 +31,7 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
   const [error, setError] = useState("");
   const [selectedCoin, setSelectedCoin] = useState({
     id: "bitcoin",
-    thumb: "https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png",
+    thumb: "https://assets.coingecko.com/coins/images/1/small/bitcoin.png",
     name: "Bitcoin",
     symbol: "BTC",
     quantity: "",
@@ -92,12 +92,6 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
       withCredentials: true,
     };
 
-    // if (selectedCoin.quantity < 0) {
-    //   console.log("Less than zero");
-    // } else {
-    //   setError("Quantity should be greater than zero.");
-    // }
-
     axios
       .all([
         axios.get(`https://api.coingecko.com/api/v3/coins/${selectedCoin.id}`),
@@ -121,16 +115,12 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
 
           if (selectedCoin.quantity > 0) {
             axios
-              .post(
-                "https://spy-chain.herokuapp.com/asset/add",
-                assetData,
-                config
-              )
+              .post("http://localhost:4000/asset/add", assetData, config)
               .then((res) => {
                 console.log(res.data);
                 console.log(assetData);
                 axios
-                  .get("https://spy-chain.herokuapp.com/user", config)
+                  .get("http://localhost:4000/user", config)
                   .then((res) => {
                     const result_portfolios = res.data.user.portfolios;
                     setPortfolios(result_portfolios);
@@ -184,7 +174,7 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
                 setSelectedCoin({
                   id: "bitcoin",
                   thumb:
-                    "https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png",
+                    "https://assets.coingecko.com/coins/images/1/small/bitcoin.png",
                   name: "Bitcoin",
                   symbol: "BTC",
                   quantity: "",
@@ -301,7 +291,11 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
                     handleDropdownClose();
                   }}
                 >
-                  <img alt="crypto" className="w-5" src={selectedCoin.thumb} />
+                  <img
+                    alt="crypto"
+                    className="w-5 h-5"
+                    src={selectedCoin.thumb}
+                  />
                   <div className="flex flex-row items-center px-2">
                     <h1 className="font-bold">{selectedCoin.name}</h1>
                     <h1 className="text-sm font-normal ml-1 text-gray-700">
@@ -347,7 +341,7 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
                           setSelectedCoin({
                             ...selectedCoin,
                             id: dropdown.id,
-                            thumb: res.data.image.thumb,
+                            thumb: res.data.image.small,
                             name: res.data.name,
                             symbol: res.data.symbol.toUpperCase(),
                             buyPrice:
@@ -414,7 +408,7 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
               <p className="text-sm italic text-red-500">{error}</p>
             </div>
             <div className="pt-2">
-              <h1 className="pb-1 font-bold">Price Per Coin</h1>
+              <h1 className="pb-1 font-bold">Buy Price Per Coin</h1>
               <Box className="flex flex-row items-center border-gray-400 border rounded pr-4 w-full h-10">
                 <p className="pl-2 font-bold">{currency.sign}</p>
                 <InputBase

@@ -5,8 +5,11 @@ import financeSVG from "../assets/svg/finance.svg";
 import digitalCurrencySVG from "../assets/svg/digitalCurrency.svg";
 import { RiSpyFill, RiLock2Line } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, changeActive } from "../redux/actions";
 
 const Login = ({ setIsLogged }) => {
+  const dispatch = useDispatch();
   const [input, setInput] = useState({ name: "", password: "" });
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -41,10 +44,13 @@ const Login = ({ setIsLogged }) => {
     };
 
     axios
-      .post("https://spy-chain.herokuapp.com/login", userLoginData, config)
+      .post("http://localhost:4000/login", userLoginData, config)
       .then((res) => {
         console.log(res.data);
+        dispatch(getUser(res.data.user));
+        dispatch(changeActive(res.data.user.portfolios[0]));
         setIsLogged(true);
+
         // navigate("/");
       })
       .catch((error) => {

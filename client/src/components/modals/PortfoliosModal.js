@@ -72,16 +72,12 @@ export default function FullScreenDialog({ setPortfolios, portfolios }) {
     };
 
     axios
-      .post(
-        "https://spy-chain.herokuapp.com/portfolio/delete",
-        portfolioData,
-        config
-      )
+      .post("http://localhost:4000/portfolio/delete", portfolioData, config)
       .then((res) => {
         console.log(res.data);
 
         axios
-          .get("https://spy-chain.herokuapp.com/user", config)
+          .get("http://localhost:4000/user", config)
           .then((res) => {
             const result_portfolios = res.data.user.portfolios;
             setPortfolios(result_portfolios);

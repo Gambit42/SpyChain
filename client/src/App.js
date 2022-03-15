@@ -10,18 +10,18 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import Loading from "./pages/Loading";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUser, changeActive } from "./redux/actions";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Register = lazy(() => import("./pages/Register"));
 const Login = lazy(() => import("./pages/Login"));
-const Transactions = lazy(() => import("./pages/Transactions"));
 const Error = lazy(() => import("./pages/Error"));
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
   const [loading, setLoading] = useState(true);
+  const activePortfolio = useSelector((state) => state.activePortfolio);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,25 +33,24 @@ function App() {
 
       withCredentials: true,
     };
-    axios
-      .get("https://spy-chain.herokuapp.com/session/ongoing", config)
-      .then((res) => {
-        if (res.data.isAuth) {
+    axios.get("http://localhost:4000/session/ongoing", config).then((res) => {
+      if (res.data.isAuth) {
+        console.log(res.data);
+        axios.get("http://localhost:4000/user", config).then((res) => {
           console.log(res.data);
-          axios
-            .get("https://spy-chain.herokuapp.com/user", config)
-            .then((res) => {
-              console.log(res.data);
-              dispatch(getUser(res.data.user));
-              if (res.data.user.portfolios.length === 1) {
-                dispatch(changeActive(res.data.user.portfolios[0]));
-              }
-            });
-          setIsLogged(true);
-        }
-        setLoading(false);
-      });
-  }, [isLogged]);
+          dispatch(getUser(res.data.user));
+          if (
+            res.data.user.portfolios.length === 1 ||
+            Object.entries(activePortfolio).length === 0
+          ) {
+            dispatch(changeActive(res.data.user.portfolios[0]));
+          }
+        });
+        setIsLogged(true);
+      }
+      setLoading(false);
+    });
+  }, []);
 
   return (
     <Router>
@@ -63,14 +62,6 @@ function App() {
               element={
                 <Suspense fallback={<Loading />}>
                   <Dashboard />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/transact"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <Transactions />
                 </Suspense>
               }
             />

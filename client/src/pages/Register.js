@@ -52,11 +52,7 @@ const Register = ({ setIsLogged }) => {
       }, 5000);
     } else {
       axios
-        .post(
-          "https://spy-chain.herokuapp.com/register",
-          userRegisterData,
-          config
-        )
+        .post("http://localhost:4000/register", userRegisterData, config)
         .then((res) => {
           console.log(res.data);
           setIsLogged(true);
@@ -119,6 +115,7 @@ const Register = ({ setIsLogged }) => {
               <div className="border-b-2 border-blue-300 border-b-blue-500 mb-4 w-full flex flex-row items-center py-1">
                 <FaRegUser className="w-5 h-5 mx-2 text-neutral-900" />
                 <input
+                  autocomplete="off"
                   onChange={handleInput}
                   placeholder="Username"
                   name="name"
@@ -129,6 +126,7 @@ const Register = ({ setIsLogged }) => {
               <div className="border-b-2 border-blue-300 border-b-blue-500 w-full flex flex-row items-center py-1 mb-4">
                 <RiLock2Line className="w-5 h-5 mx-2 text-neutral-900" />
                 <input
+                  autocomplete="off"
                   name="password"
                   type="password"
                   onChange={handleInput}

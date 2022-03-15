@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
+import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import InputBase from "@mui/material/InputBase";
 import { BsPlusLg } from "react-icons/bs";
+import { AiFillPlusCircle } from "react-icons/ai";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -24,6 +26,7 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
   const [inputCoin, setInputCoin] = useState("");
   const currency = useSelector((state) => state.currency);
   const activePortfolio = useSelector((state) => state.activePortfolio);
+  const transactionsAsset = useSelector((state) => state.transactionsAsset);
   const [selectedCoin, setSelectedCoin] = useState({
     id: asset.id,
     thumb: asset.img,
@@ -31,7 +34,6 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
     symbol: asset.symbol,
     quantity: "",
     buyPrice: 0,
-    total: 0,
   });
 
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -105,15 +107,11 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
 
           if (selectedCoin.quantity > 0) {
             axios
-              .post(
-                "https://spy-chain.herokuapp.com/asset/add",
-                assetData,
-                config
-              )
+              .post("http://localhost:4000/asset/add", assetData, config)
               .then((res) => {
                 console.log(res.data);
                 axios
-                  .get("https://spy-chain.herokuapp.com/user", config)
+                  .get("http://localhost:4000/user", config)
                   .then((res) => {
                     const result_portfolios = res.data.user.portfolios;
                     setPortfolios(result_portfolios);
@@ -198,21 +196,32 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
       });
   };
 
-  useEffect(() => {
-    setSelectedCoin({
-      ...selectedCoin,
-      total: selectedCoin.quantity * selectedCoin.buyPrice,
-    });
-  }, [selectedCoin.quantity, selectedCoin.buyPrice]);
+  // useEffect(() => {
+  //   setSelectedCoin({
+  //     ...selectedCoin,
+  //     total: selectedCoin.quantity * selectedCoin.buyPrice,
+  //   });
+  // }, [selectedCoin.quantity, selectedCoin.buyPrice]);
 
   return (
     <div>
-      <button
-        className="hover:bg-gray-200 p-2 rounded-full"
-        onClick={handleClickOpen}
-      >
-        <BsPlusLg />
-      </button>
+      {Object.entries(transactionsAsset).length !== 0 ? (
+        <Button
+          className="bg-blue-400"
+          variant="contained"
+          onClick={handleClickOpen}
+        >
+          <AiFillPlusCircle />
+          <p className="pl-2 text-sm font-poppins">Add Transactions</p>
+        </Button>
+      ) : (
+        <button
+          className="hover:bg-gray-200 p-2 rounded-full"
+          onClick={handleClickOpen}
+        >
+          <BsPlusLg />
+        </button>
+      )}
       <Dialog
         fullWidth={true}
         maxWidth={"sm"}
@@ -299,7 +308,7 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
               <p className="text-sm italic text-red-500">{error}</p>
             </div>
             <div className="pt-2">
-              <h1 className="pb-1 font-bold">Price Per Coin</h1>
+              <h1 className="pb-1 font-bold">Buy Price Per Coin</h1>
               <Box className="flex flex-row items-center border-gray-400 border rounded pr-4 w-full h-10">
                 <p className="pl-2 font-bold">{currency.sign}</p>
                 <InputBase
@@ -322,12 +331,9 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
             </div>
             <div className="bg-gray-200 flex flex-col rounded mt-3 px-2 py-2">
               <h1 className="font-semibold text-gray-700">Total Spent</h1>
-              <p
-                className="pt-1 text-lg font-bold"
-                onClick={() => console.log(selectedCoin.total)}
-              >{`${currency.sign} ${selectedCoin.total.toLocaleString(
-                "en"
-              )}`}</p>
+              <p className="pt-1 text-lg font-bold">{`${currency.sign} ${(
+                selectedCoin.quantity * selectedCoin.buyPrice
+              ).toLocaleString("en")}`}</p>
             </div>
           </div>
           <div className="w-full py-10 flex flex-col items-center">

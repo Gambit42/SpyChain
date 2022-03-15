@@ -37,6 +37,12 @@ export const updatePortfolios = (portfolio) => {
     payload: portfolio,
   };
 };
+export const getTransactions_asset = (transactions) => {
+  return {
+    type: "getTransactions_asset",
+    payload: transactions,
+  };
+};
 
 export const showNotification = (notification) => {
   return {

@@ -2,21 +2,18 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import Portfolio from "../components/Portfolio";
-import { useSelector, useDispatch } from "react-redux";
-import { showNotification } from "../redux/actions";
+import Transactions from "../components/Transactions";
+import { useSelector } from "react-redux";
 import Sidebar from "../components/Sidebar";
 import Notifaction from "../components/utils/Notification";
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
   const activePortfolio = useSelector((state) => state.activePortfolio);
   const [loading, setLoading] = useState(true);
+  const [currencyValue, setCurrencyValue] = useState();
   const currency = useSelector((state) => state.currency);
   const [portfolios, setPortfolios] = useState([]);
-  // const [activePortfolio, setActivePortfolio] = useState({
-  //   name: "",
-  //   assets: [],
-  // });
+  const transactionsAsset = useSelector((state) => state.transactionsAsset);
 
   useEffect(() => {
     const config = {
@@ -29,7 +26,19 @@ const Dashboard = () => {
     };
 
     axios
-      .get("https://spy-chain.herokuapp.com/user", config)
+      .get(`https://api.coingecko.com/api/v3/coins/tether`)
+      .then((res) => {
+        setCurrencyValue(
+          res.data.market_data.current_price[currency.symbol.toLowerCase()]
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log("Redux is being recognized");
+
+    axios
+      .get("http://localhost:4000/user", config)
       .then((res) => {
         const result_portfolios = res.data.user.portfolios;
         setPortfolios(result_portfolios);
@@ -38,7 +47,6 @@ const Dashboard = () => {
             axios
               .get(`https://api.coingecko.com/api/v3/coins/${asset.id}`)
               .then((res) => {
-                console.log(res);
                 setPortfolios((prevState) =>
                   prevState.map((portfolio) => {
                     if (portfolio._id === individual_portfolio._id) {
@@ -89,13 +97,30 @@ const Dashboard = () => {
           activePortfolio={activePortfolio}
           setPortfolios={setPortfolios}
         />
-        <Portfolio
-          loading={loading}
-          portfolios={portfolios}
-          setPortfolios={setPortfolios}
-        />
+        {Object.entries(transactionsAsset).length !== 0 ? (
+          <Transactions
+            currencyValue={currencyValue}
+            activePortfolio={activePortfolio}
+            portfolios={portfolios}
+            setPortfolios={setPortfolios}
+          />
+        ) : (
+          <Portfolio
+            loading={loading}
+            portfolios={portfolios}
+            setPortfolios={setPortfolios}
+            currencyValue={currencyValue}
+          />
+        )}
       </div>
       <Notifaction />
+      {/* <button
+        onClick={() => {
+          console.log(transactionsAsset);
+        }}
+      >
+        s
+      </button> */}
     </div>
   );
 };

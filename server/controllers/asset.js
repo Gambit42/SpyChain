@@ -104,3 +104,35 @@ exports.deleteAsset = async (req, res, next) => {
     });
   }
 };
+
+exports.deleteTransaction = async (req, res) => {
+  const { _id, asset_id, transaction_id } = req.body;
+  try {
+    const asset = await userModel.findOneAndUpdate(
+      {
+        _id: req.session.userId,
+        portfolios: {
+          $elemMatch: { _id: _id, "assets._id": asset_id },
+        },
+      },
+      {
+        $pull: {
+          "portfolios.$[p].assets.$[a].transactions": {
+            _id: transaction_id,
+          },
+        },
+      },
+      { arrayFilters: [{ "p._id": _id }, { "a._id": asset_id }], new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      data: asset,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};

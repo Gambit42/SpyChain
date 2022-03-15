@@ -4,7 +4,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaExchangeAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import AddTransactionModal from "./modals/AddTransactionModal";
-import { showNotification } from "../redux/actions";
+import { showNotification, getTransactions_asset } from "../redux/actions";
 import { FiTrash } from "react-icons/fi";
 import axios from "axios";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
@@ -48,12 +48,13 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
       _id: portfolio_id,
       asset_id: asset_id,
     };
+
     axios
-      .post("https://spy-chain.herokuapp.com/asset/delete", assetData, config)
+      .post("http://localhost:4000/asset/delete", assetData, config)
       .then((res) => {
         console.log(res.data);
         axios
-          .get("https://spy-chain.herokuapp.com/user", config)
+          .get("http://localhost:4000/user", config)
           .then((res) => {
             const result_portfolios = res.data.user.portfolios;
             setPortfolios(result_portfolios);
@@ -205,8 +206,12 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
                 if (portfolio._id === activePortfolio._id) {
                   return (
                     <tr
-                      className="h-24 xs:h-20 border-b border-gray-300 hover:bg-gray-50"
+                      className="h-24 xs:h-20 border-b border-gray-300 hover:bg-gray-50 cursor-pointer"
                       key={asset.id}
+                      onClick={(e) => {
+                        console.log(asset);
+                        dispatch(getTransactions_asset(asset));
+                      }}
                     >
                       <td className="p-2">
                         <div className="flex flex-col">
@@ -214,57 +219,57 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
                             <img
                               alt={asset.img}
                               src={asset.img}
-                              className="mr-3 mt-1 xl:mt-0 xl:mr-0"
+                              className="w-6 h-6 mr-3 mt-1 xl:mt-0 xl:mr-0"
                             />
                             <div className="flex flex-col h-full xl:flex-row xl:items-center">
                               <h1 className="text-sm font-bold xl:mx-2">
                                 {asset.name}
                               </h1>
-                              <h1 className="text-xs uppercase font-semibold text-gray-700">
-                                {asset.symbol}
-                              </h1>
+                              <div className="flex flex-row">
+                                <h1 className="text-xs uppercase font-semibold text-gray-700">
+                                  {asset.symbol}
+                                </h1>
+                                <div
+                                  className={`pl-1 text-gray-700 font-medium xs:hidden text-xs `}
+                                >
+                                  {asset.price !== undefined ? (
+                                    asset.price > 1 ? (
+                                      <div className="flex flex-row items-center">
+                                        {/* {asset.price_change_percentage_24hr >
+                                        0 ? (
+                                          <TiArrowSortedUp />
+                                        ) : (
+                                          <TiArrowSortedDown />
+                                        )} */}
+                                        <h1>{`(${
+                                          currency.sign
+                                        }${asset.price.toLocaleString("en", {
+                                          minimumFractionDigits: 2,
+                                          maximumFractionDigits: 2,
+                                        })})`}</h1>
+                                      </div>
+                                    ) : (
+                                      <div className="flex flex-row items-center">
+                                        {/* {asset.price_change_percentage_24hr >
+                                        0 ? (
+                                          <TiArrowSortedUp />
+                                        ) : (
+                                          <TiArrowSortedDown />
+                                        )} */}
+                                        <h1 className="">{`(${
+                                          currency.sign
+                                        }${asset.price.toLocaleString("en", {
+                                          minimumFractionDigits: 6,
+                                          maximumFractionDigits: 6,
+                                        })})`}</h1>
+                                      </div>
+                                    )
+                                  ) : (
+                                    <h1 className="">{`(${currency.sign}0.00)`}</h1>
+                                  )}
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            className={`pt-2 pl-8 font-semibold xs:hidden text-sm ${
-                              asset.price_change_percentage_24hr < 0
-                                ? "text-red-500"
-                                : "text-green-600"
-                            }`}
-                          >
-                            {asset.price !== undefined ? (
-                              asset.price > 1 ? (
-                                <div className="flex flex-row items-center">
-                                  {asset.price_change_percentage_24hr > 0 ? (
-                                    <TiArrowSortedUp />
-                                  ) : (
-                                    <TiArrowSortedDown />
-                                  )}
-                                  <h1>{`${
-                                    currency.sign
-                                  }${asset.price.toLocaleString("en", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  })}`}</h1>
-                                </div>
-                              ) : (
-                                <div className="flex flex-row items-center">
-                                  {asset.price_change_percentage_24hr > 0 ? (
-                                    <TiArrowSortedUp />
-                                  ) : (
-                                    <TiArrowSortedDown />
-                                  )}
-                                  <h1 className="">{`${
-                                    currency.sign
-                                  }${asset.price.toLocaleString("en", {
-                                    minimumFractionDigits: 6,
-                                    maximumFractionDigits: 6,
-                                  })}`}</h1>
-                                </div>
-                              )
-                            ) : (
-                              <h1 className="">{`(${currency.sign}0.00)`}</h1>
-                            )}
                           </div>
                         </div>
                       </td>
@@ -292,7 +297,7 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
                           {/* Double conditional. First is to check if undefined before performing function. */}
                           {asset.price_change_percentage_24hr !== undefined ? (
                             asset.price_change_percentage_24hr < 0 ? (
-                              <div className="font-semibold text-red-500 flex flex-row items-center">
+                              <div className="font-semibold text-red-600 flex flex-row items-center">
                                 <TiArrowSortedDown className="h-4 w-4" />
                                 <h1 className="text-sm">
                                   {`${Math.abs(
@@ -402,7 +407,7 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
 
                           <div className="text-sm">
                             {calculateProfitLoss(asset) < 0 ? (
-                              <div className="font-semibold text-red-500 flex flex-row items-center">
+                              <div className="font-semibold text-red-600 flex flex-row items-center">
                                 <TiArrowSortedDown className="h-4 w-4" />
                                 <h1 className="">
                                   {`${calculateProfitLossPercentage(
@@ -431,7 +436,12 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
                       </td>
                       <td className="p-2 hidden midSm:table-cell">
                         <div className="flex flex-row justify-end">
-                          <div className="hover:bg-gray-200 p-2 rounded-full cursor-pointer">
+                          <div
+                            className="hover:bg-gray-200 p-2 rounded-full cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                          >
                             <AddTransactionModal
                               asset={asset}
                               activePortfolio={activePortfolio}
@@ -441,7 +451,8 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
                           </div>
                           <div
                             className="hover:bg-gray-200 p-4 rounded-full relative cursor-pointer"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               handleTransactionsMenu(asset);
                             }}
                           >
@@ -453,18 +464,23 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
                                   : "hidden"
                               }`}
                             >
-                              {/* <button className="cursor-pointer hover:bg-gray-100 rounded px-2 h-full w-full flex flex-row items-center justify-start ">
+                              <button
+                                className="cursor-pointer hover:bg-gray-100 rounded px-2 h-full w-full flex flex-row items-center justify-start"
+                                onClick={() => {
+                                  dispatch(getTransactions_asset(asset));
+                                }}
+                              >
                                 <FaExchangeAlt className="w-4 h-4  mr-2" />
                                 <h1>Transactions</h1>
-                              </button> */}
+                              </button>
                               <button
                                 className="cursor-pointer hover:bg-gray-100 rounded px-2 h-full w-full flex flex-row items-center justify-start "
                                 onClick={() => {
                                   handleAssetDelete(portfolio._id, asset._id);
                                 }}
                               >
-                                <FiTrash className="w-4 h-4 mr-2 text-red-500" />
-                                <h1 className="font-medium text-red-500">
+                                <FiTrash className="w-4 h-4 mr-2 text-red-600" />
+                                <h1 className="font-medium text-red-600">
                                   Delete asset
                                 </h1>
                               </button>
