@@ -33,23 +33,27 @@ function App() {
 
       withCredentials: true,
     };
-    axios.get("http://localhost:4000/session/ongoing", config).then((res) => {
-      if (res.data.isAuth) {
-        console.log(res.data);
-        axios.get("http://localhost:4000/user", config).then((res) => {
+    axios
+      .get("https://spy-chain.herokuapp.com/session/ongoing", config)
+      .then((res) => {
+        if (res.data.isAuth) {
           console.log(res.data);
-          dispatch(getUser(res.data.user));
-          if (
-            res.data.user.portfolios.length === 1 ||
-            Object.entries(activePortfolio).length === 0
-          ) {
-            dispatch(changeActive(res.data.user.portfolios[0]));
-          }
-        });
-        setIsLogged(true);
-      }
-      setLoading(false);
-    });
+          axios
+            .get("https://spy-chain.herokuapp.com/user", config)
+            .then((res) => {
+              console.log(res.data);
+              dispatch(getUser(res.data.user));
+              if (
+                res.data.user.portfolios.length === 1 ||
+                Object.entries(activePortfolio).length === 0
+              ) {
+                dispatch(changeActive(res.data.user.portfolios[0]));
+              }
+            });
+          setIsLogged(true);
+        }
+        setLoading(false);
+      });
   }, []);
 
   return (

@@ -56,13 +56,17 @@ export default function FullScreenDialog({ portfolio, setPortfolios }) {
     };
 
     axios
-      .post("http://localhost:4000/portfolio/edit", portfolioData, config)
+      .post(
+        "https://spy-chain.herokuapp.com/portfolio/edit",
+        portfolioData,
+        config
+      )
       .then((res) => {
         setOpen(false);
         setInput(portfolio.name);
         console.log(res.data);
         axios
-          .get("http://localhost:4000/user", config)
+          .get("https://spy-chain.herokuapp.com/user", config)
           .then((res) => {
             const result_portfolios = res.data.user.portfolios;
             console.log(result_portfolios);

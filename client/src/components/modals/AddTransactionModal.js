@@ -107,11 +107,15 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
 
           if (selectedCoin.quantity > 0) {
             axios
-              .post("http://localhost:4000/asset/add", assetData, config)
+              .post(
+                "https://spy-chain.herokuapp.com/asset/add",
+                assetData,
+                config
+              )
               .then((res) => {
                 console.log(res.data);
                 axios
-                  .get("http://localhost:4000/user", config)
+                  .get("https://spy-chain.herokuapp.com/user", config)
                   .then((res) => {
                     const result_portfolios = res.data.user.portfolios;
                     setPortfolios(result_portfolios);

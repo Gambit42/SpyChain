@@ -40,6 +40,7 @@ export default function FullScreenDialog({ setPortfolios, portfolios }) {
   const [open, setOpen] = useState(false);
   const [active_portfolioSettings, setActive_portfolioSettings] = useState("");
   const [total, setTotal] = useState(0);
+  const [error, setError] = useState("");
   const currency = useSelector((state) => state.currency);
   const activePortfolio = useSelector((state) => state.activePortfolio);
 
@@ -72,12 +73,16 @@ export default function FullScreenDialog({ setPortfolios, portfolios }) {
     };
 
     axios
-      .post("http://localhost:4000/portfolio/delete", portfolioData, config)
+      .post(
+        "https://spy-chain.herokuapp.com/portfolio/delete",
+        portfolioData,
+        config
+      )
       .then((res) => {
         console.log(res.data);
 
         axios
-          .get("http://localhost:4000/user", config)
+          .get("https://spy-chain.herokuapp.com/user", config)
           .then((res) => {
             const result_portfolios = res.data.user.portfolios;
             setPortfolios(result_portfolios);
@@ -132,7 +137,10 @@ export default function FullScreenDialog({ setPortfolios, portfolios }) {
           });
       })
       .catch((error) => {
-        console.log(error.response.data.error);
+        setError(error.response.data.error);
+        setTimeout(() => {
+          setError("");
+        }, 5000);
       });
   };
 
@@ -277,6 +285,9 @@ export default function FullScreenDialog({ setPortfolios, portfolios }) {
                 </div>
               </div>
             ))}
+            <p className="text-left text-sm italic text-red-500 w-full pt-2 pl-6 h-10">
+              {error}
+            </p>
           </div>
           <div className="pt-5 flex flex-col items-center">
             <CreatePortfolioModal

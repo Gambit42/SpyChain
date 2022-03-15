@@ -32,14 +32,14 @@ const TransactionsTable = ({
     };
     axios
       .post(
-        "http://localhost:4000/asset/transaction/delete",
+        "https://spy-chain.herokuapp.com/asset/transaction/delete",
         transactionData,
         config
       )
       .then((res) => {
         console.log(res.data);
         axios
-          .get("http://localhost:4000/user", config)
+          .get("https://spy-chain.herokuapp.com/user", config)
           .then((res) => {
             const result_portfolios = res.data.user.portfolios;
             setPortfolios(result_portfolios);

@@ -32,10 +32,12 @@ const Navbar = () => {
 
       withCredentials: true,
     };
-    axios.get("http://localhost:4000/session/terminate", config).then((res) => {
-      dispatch(logout());
-      window.location.reload();
-    });
+    axios
+      .get("https://spy-chain.herokuapp.com/session/terminate", config)
+      .then((res) => {
+        dispatch(logout());
+        window.location.reload();
+      });
   };
 
   const handleOpenNavMenu = (event) => {

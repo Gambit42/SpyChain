@@ -31,8 +31,7 @@ connectDatabase();
 app.use(express.json());
 app.use(
   cors({
-    // origin: ["https://spychain.netlify.app"],
-    origin: ["http://localhost:3000"],
+    origin: ["https://spychain.netlify.app"],
     methods: ["GET", "POST", "PUT"],
     credentials: true, // enable set cookie
   })
@@ -44,12 +43,12 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    // proxy: true, // Required for Heroku & Digital Ocean (regarding X-Forwarded-For)
+    proxy: true, // Required for Heroku & Digital Ocean (regarding X-Forwarded-For)
     cookie: {
-      // httpOnly: true,
-      // secure: true,
+      httpOnly: true,
+      secure: true,
       maxAge: 1000 * 60 * 60 * 48,
-      // sameSite: "none",
+      sameSite: "none",
     },
   })
 );
