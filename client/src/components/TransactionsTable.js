@@ -108,7 +108,7 @@ const TransactionsTable = ({
             Buy Price
           </td>
           <td className=" text-xs font-bold text-gray-800 bg-gray-200 px-4 text-right">
-            Actions
+            Action
           </td>
         </tr>
       </thead>
@@ -129,13 +129,13 @@ const TransactionsTable = ({
                 })}`}
               </td>
               <td className="text-sm text-right p-2">
-                <div
-                  className="w-full flex justify-end"
-                  onClick={() => {
-                    handleDeleteTransaction(transaction._id);
-                  }}
-                >
-                  <FiTrash className="w-4 h-4 mr-2 text-red-600" />
+                <div className="w-full flex justify-end">
+                  <FiTrash
+                    className="w-6 h-6 mr-2 text-red-600 cursor-pointer"
+                    onClick={() => {
+                      handleDeleteTransaction(transaction._id);
+                    }}
+                  />
                 </div>
               </td>
             </tr>

@@ -33,6 +33,7 @@ const Transactions = ({
   const currency = useSelector((state) => state.currency);
   const transactionsAsset = useSelector((state) => state.transactionsAsset);
   const [openMore, setOpenMore] = useState(false);
+  const [openMore2, setOpenMore2] = useState(false);
 
   const handleAssetDelete = () => {
     const config = {
@@ -197,7 +198,7 @@ const Transactions = ({
           <div className="flex flex-row justify-between items-center ">
             <button
               onClick={handleExitTransactions}
-              className="flex flex-row items-center rounded py-1 px-2 bg-gray-100"
+              className="flex flex-row items-center rounded py-1 px-2 bg-gray-200"
             >
               <IoIosArrowBack className="w-4 h-4" />
               <h1 className="font-medium text-sm">Back</h1>
@@ -207,9 +208,9 @@ const Transactions = ({
                 setOpenMore(false);
               }}
             >
-              <div className="">
+              <div className="sm:hidden">
                 <div
-                  className="flex flex-row items-center rounded py-1 px-2 bg-gray-100 cursor-pointer"
+                  className="flex flex-row items-center rounded py-1 px-2 bg-gray-200 cursor-pointer"
                   onClick={() => {
                     setOpenMore(!openMore);
                   }}
@@ -261,14 +262,14 @@ const Transactions = ({
                 )}`}</h1>
               )}
             </div>
-            <div className="flex flex-col mt-5">
-              <div className="flex w-full flex-row justify-between py-4 ">
+            <div className="flex flex-col mt-5 md:flex-row md:mt-2">
+              <div className="flex w-full flex-row justify-between py-4 md:flex-col md:w-24 md:py-2">
                 <h1 className="text-sm text-gray-700">Quantity</h1>
                 <h1 className="text-sm font-bold">{`${calculateTotalQuantity(
                   transactionsAsset
                 )} ${transactionsAsset.symbol}`}</h1>
               </div>
-              <div className="flex w-full flex-row justify-between py-4 ">
+              <div className="flex w-full flex-row justify-between py-4 md:flex-col md:w-28 md:py-2">
                 <h1 className="text-sm text-gray-700">Avg buy price</h1>
                 {calculateAvgBuyPrice(transactionsAsset) >= 1 ? (
                   <h1 className="font-bold text-sm">{`${
@@ -292,7 +293,7 @@ const Transactions = ({
                   )}`}</h1>
                 )}
               </div>
-              <div className="flex w-full flex-row justify-between py-4   ">
+              <div className="flex w-full flex-row justify-between py-4   md:flex-col md:w-28 md:py-2">
                 <h1 className="text-sm text-gray-700">Total profit/loss</h1>
                 <div
                   className={`flex flex-row items-center ${
@@ -326,14 +327,44 @@ const Transactions = ({
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-end items-center">
-            <AddTransactionModal
-              asset={transactionsAsset}
-              activePortfolio={activePortfolio}
-              portfolios={portfolios}
-              setPortfolios={setPortfolios}
-            />
-          </div>
+          <ClickAwayListener
+            onClickAway={() => {
+              setOpenMore2(false);
+            }}
+          >
+            <div className="flex flex-row justify-end items-center">
+              <div className="hidden sm:flex mr-5 relative">
+                <div
+                  className="flex flex-row items-center rounded py-2 px-2 bg-gray-200 cursor-pointer"
+                  onClick={() => {
+                    setOpenMore2(!openMore2);
+                  }}
+                >
+                  <MdMoreHoriz className="mr-1" />
+                  <h1 className="font-medium text-sm">More</h1>
+                </div>
+                <Menu
+                  className={`mt-10 p-1 right-0 flex-col justify-center items-center z-40 absolute shadow-2xl bg-white  w-32 h-10 rounded text-sm cursor-default ease-in duration-300 ${
+                    openMore2 ? "flex" : "hidden"
+                  }`}
+                >
+                  <button
+                    className="p-1 cursor-pointer hover:bg-gray-100 rounded   flex flex-row items-center justify-start"
+                    onClick={handleAssetDelete}
+                  >
+                    <FiTrash className="w-4 h-4 mr-2 text-red-500" />
+                    <h1 className="font-medium text-red-500">Delete Asset</h1>
+                  </button>
+                </Menu>
+              </div>
+              <AddTransactionModal
+                asset={transactionsAsset}
+                activePortfolio={activePortfolio}
+                portfolios={portfolios}
+                setPortfolios={setPortfolios}
+              />
+            </div>
+          </ClickAwayListener>
           <TransactionsTable
             transactionsAsset={transactionsAsset}
             currencyValue={currencyValue}

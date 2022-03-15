@@ -54,25 +54,22 @@ const portfolioSchema = new mongoose.Schema({
   },
 });
 
-const userSchema = new mongoose.Schema(
-  {
-    userName: {
-      type: String,
-      required: [true, "Please provide a username."],
-      unique: true,
-    },
-
-    password: {
-      type: String,
-      required: [true, "Please add a password"],
-      minlength: 6,
-      select: false,
-    },
-
-    portfolios: [portfolioSchema],
+const userSchema = new mongoose.Schema({
+  userName: {
+    type: String,
+    required: [true, "Please provide a username."],
+    unique: true,
   },
-  { collection: "users" }
-);
+
+  password: {
+    type: String,
+    required: [true, "Please add a password"],
+    minlength: 6,
+    select: false,
+  },
+
+  portfolios: [portfolioSchema],
+});
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, changeActive } from "../redux/actions";
 import welcomeSVG from "../assets/svg/welcome.svg";
 import { RiSpyFill, RiLock2Line } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
 
 const Register = ({ setIsLogged }) => {
+  const dispatch = useDispatch();
   const [input, setInput] = useState({
     name: "",
     password: "",
@@ -54,8 +57,10 @@ const Register = ({ setIsLogged }) => {
       axios
         .post("http://localhost:4000/register", userRegisterData, config)
         .then((res) => {
-          console.log(res.data);
-          setIsLogged(true);
+          // dispatch(getUser(res.data.user));
+          // dispatch(changeActive(res.data.user.portfolios[0]));
+          // setIsLogged(true);
+          navigate("/login");
         })
         .catch((error) => {
           console.log(error.response.data.error);

@@ -14,8 +14,8 @@ import { logout } from "../redux/actions";
 import FiatModal from "./modals/FiatModal";
 import ColoredAvatar from "./ColoredAvatar";
 
-const pages = [<FiatModal />, "Logout"];
-const settings = ["Profile", "Logout"];
+const pages = ["Logout"];
+const settings = ["Logout"];
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -88,8 +88,12 @@ const Navbar = () => {
               SpyChain
             </h1>
           </Box>
-          <Box className="lg:hidden">
-            <MenuIcon onClick={handleOpenNavMenu} className="cursor-pointer" />
+          <Box className="lg:hidden flex flex-row items-center">
+            <FiatModal />
+            <MenuIcon
+              onClick={handleOpenNavMenu}
+              className="cursor-pointer ml-2"
+            />
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -105,7 +109,7 @@ const Navbar = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { xs: "block", md: "none", marginTop: 5 },
               }}
             >
               {pages.map((page) => (
@@ -119,7 +123,7 @@ const Navbar = () => {
                     }
                   }}
                 >
-                  <div className="py-5">{page}</div>
+                  <div className="">{page}</div>
                 </MenuItem>
               ))}
             </Menu>
