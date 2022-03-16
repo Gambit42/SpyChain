@@ -117,6 +117,7 @@ const Register = ({ setIsLogged }) => {
               <p className="text-sm">Please fill in the form to signup.</p>
             </div>
             <form
+              autoComplete="off"
               method="post"
               onSubmit={handleSubmit}
               className="flex flex-col py-2 items-center"
@@ -124,7 +125,7 @@ const Register = ({ setIsLogged }) => {
               <div className="border-b-2 border-blue-300 border-b-blue-500 mb-4 w-full flex flex-row items-center py-1">
                 <FaRegUser className="w-5 h-5 mx-2 text-neutral-900" />
                 <input
-                  autoComplete="off"
+                  autoComplete="none"
                   onChange={handleInput}
                   placeholder="Username"
                   name="name"
@@ -135,7 +136,7 @@ const Register = ({ setIsLogged }) => {
               <div className="border-b-2 border-blue-300 border-b-blue-500 w-full flex flex-row items-center py-1 mb-4">
                 <RiLock2Line className="w-5 h-5 mx-2 text-neutral-900" />
                 <input
-                  autoComplete="off"
+                  autoComplete="new-password"
                   name="password"
                   type="password"
                   onChange={handleInput}
