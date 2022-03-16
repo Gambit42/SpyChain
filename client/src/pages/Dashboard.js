@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import Portfolio from "../components/Portfolio";
-import Transactions from "../components/Transactions";
 import { useSelector } from "react-redux";
 import Sidebar from "../components/Sidebar";
 import Notifaction from "../components/utils/Notification";
+import Loading from "../pages/Loading";
+const Transactions = lazy(() => import("../components/Transactions"));
 
 const Dashboard = () => {
   const activePortfolio = useSelector((state) => state.activePortfolio);
@@ -99,12 +100,14 @@ const Dashboard = () => {
           setPortfolios={setPortfolios}
         />
         {Object.entries(transactionsAsset).length !== 0 ? (
-          <Transactions
-            currencyValue={currencyValue}
-            activePortfolio={activePortfolio}
-            portfolios={portfolios}
-            setPortfolios={setPortfolios}
-          />
+          <Suspense fallback={<Loading />}>
+            <Transactions
+              currencyValue={currencyValue}
+              activePortfolio={activePortfolio}
+              portfolios={portfolios}
+              setPortfolios={setPortfolios}
+            />
+          </Suspense>
         ) : (
           <Portfolio
             loading={loading}
