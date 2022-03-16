@@ -40,6 +40,7 @@ const Dashboard = () => {
     axios
       .get("https://spy-chain.herokuapp.com/user", config)
       .then((res) => {
+        console.log(res);
         const result_portfolios = res.data.user.portfolios;
         setPortfolios(result_portfolios);
         for (let individual_portfolio of result_portfolios) {
