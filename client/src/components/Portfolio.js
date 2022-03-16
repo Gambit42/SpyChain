@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeActive } from "../redux/actions";
 import PortfoliosModal from "./modals/PortfoliosModal";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import AddNewAssetModal from "./modals/AddNewAssetModal";
-import Table from "./Table";
+import Loading from "../pages/Loading";
+const Table = lazy(() => import("./Table"));
 
 const Portfolio = ({ portfolios, setPortfolios, loading, currencyValue }) => {
   const dispatch = useDispatch();
@@ -167,13 +168,15 @@ const Portfolio = ({ portfolios, setPortfolios, loading, currencyValue }) => {
             </div>
           </div>
         </div>
-        <Table
-          setPortfolios={setPortfolios}
-          loading={loading}
-          currencyValue={currencyValue}
-          portfolios={portfolios}
-          activePortfolio={activePortfolio}
-        />
+        <Suspense fallback={<Loading />}>
+          <Table
+            setPortfolios={setPortfolios}
+            loading={loading}
+            currencyValue={currencyValue}
+            portfolios={portfolios}
+            activePortfolio={activePortfolio}
+          />
+        </Suspense>
       </div>
     </div>
   );
