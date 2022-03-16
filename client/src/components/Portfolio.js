@@ -4,7 +4,7 @@ import { changeActive } from "../redux/actions";
 import PortfoliosModal from "./modals/PortfoliosModal";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import AddNewAssetModal from "./modals/AddNewAssetModal";
-import Loading from "../pages/Loading";
+import LoadingComponents from "./utils/LoadingComponents";
 const Table = lazy(() => import("./Table"));
 
 const Portfolio = ({ portfolios, setPortfolios, loading, currencyValue }) => {
@@ -168,7 +168,7 @@ const Portfolio = ({ portfolios, setPortfolios, loading, currencyValue }) => {
             </div>
           </div>
         </div>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<LoadingComponents />}>
           <Table
             setPortfolios={setPortfolios}
             loading={loading}
