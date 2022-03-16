@@ -79,8 +79,6 @@ export default function FullScreenDialog({ setPortfolios, portfolios }) {
         config
       )
       .then((res) => {
-        console.log(res.data);
-
         axios
           .get("https://spy-chain.herokuapp.com/user", config)
           .then((res) => {
@@ -126,15 +124,11 @@ export default function FullScreenDialog({ setPortfolios, portfolios }) {
                       })
                     );
                   })
-                  .catch((err) => {
-                    console.log(err);
-                  });
+                  .catch((err) => {});
               }
             }
           })
-          .catch((error) => {
-            console.log(error.message);
-          });
+          .catch((error) => {});
       })
       .catch((error) => {
         setError(error.response.data.error);

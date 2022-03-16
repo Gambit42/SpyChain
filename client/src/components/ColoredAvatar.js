@@ -37,12 +37,7 @@ export default function BackgroundLetterAvatars({ user }) {
       {user !== undefined ? (
         <Avatar {...stringAvatar(`${user.userName}`)} />
       ) : (
-        <Avatar
-          {...stringAvatar("test")}
-          onClick={() => {
-            console.log(user);
-          }}
-        />
+        <Avatar {...stringAvatar("test")} s />
       )}
     </>
   );

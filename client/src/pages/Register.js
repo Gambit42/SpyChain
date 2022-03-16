@@ -67,7 +67,6 @@ const Register = ({ setIsLogged }) => {
           navigate("/login");
         })
         .catch((error) => {
-          console.log(error.response.data.error);
           setError(error.response.data.error);
           setTimeout(() => {
             setError("");

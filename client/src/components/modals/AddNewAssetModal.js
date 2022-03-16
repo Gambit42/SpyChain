@@ -48,7 +48,6 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
 
   const handleClose = () => {
     setOpen(false);
-    console.log("hehe boi");
   };
 
   const handleDropdown = () => {
@@ -73,9 +72,7 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
           total: selectedCoin.quantity * selectedCoin.buyPrice,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }, [currency, selectedCoin.id, open]);
 
   const handleInputCoin = (e) => {
@@ -121,8 +118,6 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
                 config
               )
               .then((res) => {
-                console.log(res.data);
-                console.log(assetData);
                 axios
                   .get("https://spy-chain.herokuapp.com/user", config)
                   .then((res) => {
@@ -165,15 +160,11 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
                               })
                             );
                           })
-                          .catch((err) => {
-                            console.log(err);
-                          });
+                          .catch((err) => {});
                       }
                     }
                   })
-                  .catch((error) => {
-                    console.log(error.message);
-                  });
+                  .catch((error) => {});
 
                 setSelectedCoin({
                   id: "bitcoin",
@@ -193,10 +184,7 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
                   })
                 );
               })
-              .catch((error) => {
-                console.log(error.response.data.error);
-                // setError(error.response.data.error);
-              });
+              .catch((error) => {});
           } else {
             setError("Quantity should be greater than zero.");
             setTimeout(() => {
@@ -205,9 +193,7 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
           }
         })
       )
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   useEffect(() => {
@@ -219,9 +205,7 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
       .then((res) => {
         setDropdowns(res.data.coins.slice(0, 11));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }, [inputCoin]);
 
   useEffect(() => {
@@ -354,9 +338,7 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
                               ],
                           });
                         })
-                        .catch((err) => {
-                          console.log(err);
-                        });
+                        .catch((err) => {});
 
                       handleDropdownClose();
                       setActive_inputCoin(false);
@@ -435,12 +417,9 @@ const AddNewAssetModal = ({ activePortfolio, setPortfolios }) => {
             </div>
             <div className="bg-gray-200 flex flex-col rounded mt-3 px-2 py-2">
               <h1 className="font-semibold text-gray-700">Total Spent</h1>
-              <p
-                className="pt-1 text-lg font-bold"
-                onClick={() => console.log(selectedCoin.total)}
-              >{`${currency.sign} ${selectedCoin.total.toLocaleString(
-                "en"
-              )}`}</p>
+              <p className="pt-1 text-lg font-bold">{`${
+                currency.sign
+              } ${selectedCoin.total.toLocaleString("en")}`}</p>
             </div>
           </div>
           <div className="w-full py-10 flex flex-col items-center">

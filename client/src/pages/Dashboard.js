@@ -33,15 +33,11 @@ const Dashboard = () => {
           res.data.market_data.current_price[currency.symbol.toLowerCase()]
         );
       })
-      .catch((err) => {
-        console.log(err);
-      });
-    console.log("Redux is being recognized");
+      .catch((err) => {});
 
     axios
       .get("https://spy-chain.herokuapp.com/user", config)
       .then((res) => {
-        console.log(res);
         const result_portfolios = res.data.user.portfolios;
         setPortfolios(result_portfolios);
         for (let individual_portfolio of result_portfolios) {
@@ -77,16 +73,12 @@ const Dashboard = () => {
                   })
                 );
               })
-              .catch((err) => {
-                console.log(err);
-              });
+              .catch((err) => {});
           }
         }
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error.message);
-      });
+      .catch((error) => {});
   }, [currency]);
 
   return (
@@ -118,13 +110,6 @@ const Dashboard = () => {
         )}
       </div>
       <Notifaction />
-      {/* <button
-        onClick={() => {
-          console.log(transactionsAsset);
-        }}
-      >
-        s
-      </button> */}
     </div>
   );
 };

@@ -51,7 +51,6 @@ const Transactions = ({
     axios
       .post("https://spy-chain.herokuapp.com/asset/delete", assetData, config)
       .then((res) => {
-        console.log(res.data);
         axios
           .get("https://spy-chain.herokuapp.com/user", config)
           .then((res) => {
@@ -90,9 +89,7 @@ const Transactions = ({
                       })
                     );
                   })
-                  .catch((err) => {
-                    console.log(err);
-                  });
+                  .catch((err) => {});
               }
             }
             dispatch(getTransactions_asset(""));
@@ -100,13 +97,9 @@ const Transactions = ({
               showNotification({ active: true, message: "Asset deleted!" })
             );
           })
-          .catch((error) => {
-            console.log(error.message);
-          });
+          .catch((error) => {});
       })
-      .catch((error) => {
-        console.log(error.response.data.error);
-      });
+      .catch((error) => {});
   };
 
   const handleExitTransactions = () => {
@@ -114,13 +107,10 @@ const Transactions = ({
   };
 
   useEffect(() => {
-    console.log(portfolios);
-
     for (let portfolio of portfolios) {
       if (portfolio._id === activePortfolio._id) {
         for (let asset of portfolio.assets) {
           if (asset.id === transactionsAsset.id) {
-            // console.log(asset.transactions);
             axios
               .get(
                 `https://api.coingecko.com/api/v3/coins/${transactionsAsset.id}`
@@ -136,9 +126,7 @@ const Transactions = ({
                   })
                 );
               })
-              .catch((err) => {
-                console.log(err.message);
-              });
+              .catch((err) => {});
           }
         }
       }

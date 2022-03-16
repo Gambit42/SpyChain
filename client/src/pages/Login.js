@@ -46,7 +46,6 @@ const Login = ({ setIsLogged }) => {
     axios
       .post("https://spy-chain.herokuapp.com/login", userLoginData, config)
       .then((res) => {
-        console.log(res.data);
         dispatch(getUser(res.data.user));
         dispatch(changeActive(res.data.user.portfolios[0]));
         setIsLogged(true);
@@ -54,7 +53,6 @@ const Login = ({ setIsLogged }) => {
         // navigate("/");
       })
       .catch((error) => {
-        console.log(error.response.data.error);
         setError(error.response.data.error);
         setTimeout(() => {
           setError("");

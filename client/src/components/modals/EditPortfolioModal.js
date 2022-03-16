@@ -64,12 +64,10 @@ export default function FullScreenDialog({ portfolio, setPortfolios }) {
       .then((res) => {
         setOpen(false);
         setInput(portfolio.name);
-        console.log(res.data);
         axios
           .get("https://spy-chain.herokuapp.com/user", config)
           .then((res) => {
             const result_portfolios = res.data.user.portfolios;
-            console.log(result_portfolios);
             setPortfolios(result_portfolios);
             dispatch(
               showNotification({
@@ -110,18 +108,13 @@ export default function FullScreenDialog({ portfolio, setPortfolios }) {
                       })
                     );
                   })
-                  .catch((err) => {
-                    console.log(err);
-                  });
+                  .catch((err) => {});
               }
             }
           })
-          .catch((error) => {
-            console.log(error.message);
-          });
+          .catch((error) => {});
       })
       .catch((error) => {
-        console.log(error.response.data.error);
         setError(error.response.data.error);
         setTimeout(() => {
           setError("");

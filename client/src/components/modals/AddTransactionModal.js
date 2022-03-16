@@ -44,7 +44,6 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
 
   const handleClose = () => {
     setOpen(false);
-    console.log("hehe boi");
   };
 
   const handleDropdown = () => {
@@ -65,9 +64,7 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
           total: selectedCoin.quantity * selectedCoin.buyPrice,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }, [currency, selectedCoin.id, open]);
 
   const handleInputCoin = (e) => {
@@ -113,7 +110,6 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
                 config
               )
               .then((res) => {
-                console.log(res.data);
                 axios
                   .get("https://spy-chain.herokuapp.com/user", config)
                   .then((res) => {
@@ -156,15 +152,11 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
                               })
                             );
                           })
-                          .catch((err) => {
-                            console.log(err);
-                          });
+                          .catch((err) => {});
                       }
                     }
                   })
-                  .catch((error) => {
-                    console.log(error.message);
-                  });
+                  .catch((error) => {});
 
                 setSelectedCoin({
                   id: asset.id,
@@ -184,7 +176,6 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
                 setOpen(false);
               })
               .catch((error) => {
-                console.log(error.response.data.error);
                 // setError(error.response.data.error);
               });
           } else {
@@ -195,9 +186,7 @@ const AddTransactionModal = ({ setPortfolios, asset }) => {
           }
         })
       )
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   // useEffect(() => {

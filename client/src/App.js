@@ -37,11 +37,9 @@ function App() {
       .get("https://spy-chain.herokuapp.com/session/ongoing", config)
       .then((res) => {
         if (res.data.isAuth) {
-          console.log(res.data);
           axios
             .get("https://spy-chain.herokuapp.com/user", config)
             .then((res) => {
-              console.log(res.data);
               dispatch(getUser(res.data.user));
               if (
                 res.data.user.portfolios.length === 1 ||

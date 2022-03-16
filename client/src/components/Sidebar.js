@@ -85,7 +85,6 @@ const Sidebar = ({
         config
       )
       .then((res) => {
-        console.log(res.data);
         axios
           .get("https://spy-chain.herokuapp.com/user", config)
           .then((res) => {
@@ -131,19 +130,13 @@ const Sidebar = ({
                       })
                     );
                   })
-                  .catch((err) => {
-                    console.log(err);
-                  });
+                  .catch((err) => {});
               }
             }
           })
-          .catch((error) => {
-            console.log(error.message);
-          });
+          .catch((error) => {});
       })
-      .catch((error) => {
-        console.log(error.response.data.error);
-      });
+      .catch((error) => {});
   };
 
   const handle_active_portfolioSettings = (name) => {
@@ -196,14 +189,7 @@ const Sidebar = ({
                 >
                   <div className="flex flex-row justify-between items-center w-full">
                     <div className="text-left">
-                      <h1
-                        className="text-sm font-bold"
-                        onClick={() => {
-                          console.log(portfolio);
-                        }}
-                      >
-                        {portfolio.name}
-                      </h1>
+                      <h1 className="text-sm font-bold">{portfolio.name}</h1>
                       <TotalPortfolio
                         currency={currency}
                         portfolio={portfolio}

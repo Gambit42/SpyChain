@@ -52,7 +52,6 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
     axios
       .post("https://spy-chain.herokuapp.com/asset/delete", assetData, config)
       .then((res) => {
-        console.log(res.data);
         axios
           .get("https://spy-chain.herokuapp.com/user", config)
           .then((res) => {
@@ -91,22 +90,16 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
                       })
                     );
                   })
-                  .catch((err) => {
-                    console.log(err);
-                  });
+                  .catch((err) => {});
               }
             }
             dispatch(
               showNotification({ active: true, message: "Asset deleted!" })
             );
           })
-          .catch((error) => {
-            console.log(error.message);
-          });
+          .catch((error) => {});
       })
-      .catch((error) => {
-        console.log(error.response.data.error);
-      });
+      .catch((error) => {});
   };
 
   const handleTransactionsMenu = (asset) => {
@@ -209,7 +202,6 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
                       className="h-24 xs:h-20 border-b border-gray-300 hover:bg-gray-50 cursor-pointer"
                       key={asset.id}
                       onClick={(e) => {
-                        console.log(asset);
                         dispatch(getTransactions_asset(asset));
                       }}
                     >
@@ -346,12 +338,7 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
                           </div>
                         </div>
                       </td>
-                      <td
-                        className="p-2 hidden md:table-cell"
-                        onClick={() => {
-                          console.log(asset.transactions);
-                        }}
-                      >
+                      <td className="p-2 hidden md:table-cell">
                         <div className="flex flex-col items-end">
                           <h1 className="text-sm font-medium text-gray-900">
                             <span>{currency.sign}</span>
@@ -374,12 +361,7 @@ const Table = ({ currencyValue, portfolios, loading, setPortfolios }) => {
                         </div>
                       </td>
                       <td className="p-2 hidden md:table-cell">
-                        <div
-                          className="flex flex-col items-end"
-                          onClick={() => {
-                            console.log(calculateProfitLoss(asset));
-                          }}
-                        >
+                        <div className="flex flex-col items-end">
                           {calculateProfitLoss(asset) < 0 ? (
                             <h1 className="text-sm font-medium text-gray-900">
                               {`${calculateProfitLoss(asset) >= 0 ? "" : "-"} ${
