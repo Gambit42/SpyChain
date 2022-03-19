@@ -1,4 +1,4 @@
-const transactions_assetReducer = (state = { transactions: [] }, action) => {
+const transactions_assetReducer = (state = {}, action) => {
   switch (action.type) {
     case "getTransactions_asset":
       return action.payload;
