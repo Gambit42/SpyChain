@@ -10,7 +10,7 @@ import { getUser, changeActive } from "../redux/actions";
 
 const Login = ({ setIsLogged }) => {
   const dispatch = useDispatch();
-  const [input, setInput] = useState({ name: "admin", password: "admin" });
+  const [input, setInput] = useState({ name: "admin", password: "admin123" });
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
