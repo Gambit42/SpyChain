@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import { FaWallet } from "react-icons/fa";
-import { FaPen, FaEye } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import styled from "styled-components";
 import DialogContent from "@mui/material/DialogContent";
 import { IoIosArrowDown } from "react-icons/io";

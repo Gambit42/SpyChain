@@ -58,6 +58,7 @@ const FiatModal = () => {
         className="flex flex-row items-center bg-gray-100 rounded p-2"
       >
         <img
+          alt="fiat"
           src={`https://s2.coinmarketcap.com/static/cloud/img/fiat-flags/${currency.symbol.toUpperCase()}.svg`}
           className="mr-1 h-4 w-4"
         />
@@ -127,6 +128,7 @@ const FiatModal = () => {
                 className="cursor-pointer flex flex-row items-center hover:bg-gray-200 rounded text-xs px-2 h-16 py-1"
               >
                 <img
+                  alt="fiat-symbol"
                   className="w-6 h-6 mr-2"
                   src={`https://s2.coinmarketcap.com/static/cloud/img/fiat-flags/${fiat.symbol.toUpperCase()}.svg`}
                 />

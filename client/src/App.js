@@ -2,11 +2,6 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import "./styles/tailwind.css";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Dashboard from "./pages/Dashboard";
-// import Login from "./pages/Login";
-// import Register from "./pages/Register";
-// import Transactions from "./pages/Transactions";
-// import Error from "./pages/Error";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import Loading from "./pages/Loading";
@@ -91,17 +86,6 @@ function App() {
       ) : (
         <Loading />
       )}
-
-      {/* <Routes>    
-        <Route element={<PrivateRoute isLogged={isLogged} />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/transact" element={<Transactions />} />
-        </Route>
-        <Route element={<PublicRoute isLogged={isLogged} />}>
-          <Route path="/login" element={<Login setIsLogged={setIsLogged} />} />
-        </Route>
-        <Route path="*" element={<Error />} />
-      </Routes> */}
     </Router>
   );
 }

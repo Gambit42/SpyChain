@@ -3,7 +3,6 @@ import ButtonUnstyled from "@mui/base/ButtonUnstyled";
 import Dialog from "@mui/material/Dialog";
 import Toolbar from "@mui/material/Toolbar";
 import DialogContent from "@mui/material/DialogContent";
-import { TiArrowBack } from "react-icons/ti";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
@@ -23,7 +22,6 @@ export default function FullScreenDialog({ portfolios, setPortfolios }) {
   const [input, setInput] = useState("");
   const [char, setChar] = useState(0);
   const currency = useSelector((state) => state.currency);
-  const activePortfolio = useSelector((state) => state.activePortfolio);
 
   useEffect(() => {
     setChar(input.length);

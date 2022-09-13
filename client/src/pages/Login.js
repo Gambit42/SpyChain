@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import financeSVG from "../assets/svg/finance.svg";
 import digitalCurrencySVG from "../assets/svg/digitalCurrency.svg";
 import { RiSpyFill, RiLock2Line } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getUser, changeActive } from "../redux/actions";
 
 const Login = ({ setIsLogged }) => {
@@ -63,7 +62,7 @@ const Login = ({ setIsLogged }) => {
   return (
     <div className="flex justify-center items-center bg-gradient-to-l from-blue-100 to-blue-300 h-screen w-screen font-poppins">
       <div className="rounded w-4/5 shadow-lg flex flex-row bg-white max-w-4xl">
-        <div className="hidden w-full md:flex flex-col justify-between min-h-max bg-gray-50">
+        <div className="rounded-l hidden w-full md:flex flex-col justify-between min-h-max bg-gray-50">
           <div className="p-6">
             <div className="flex flex-row items-center">
               <RiSpyFill className="w-8 h-8 text-blue-500 mr-1" />
@@ -79,7 +78,7 @@ const Login = ({ setIsLogged }) => {
           </div>
 
           <div className="pb-24 px-6 pt-10">
-            <img src={digitalCurrencySVG} className="w-96" />
+            <img alt="currency" src={digitalCurrencySVG} className="w-96" />
           </div>
         </div>
         <div className="w-full px-2 py-6">

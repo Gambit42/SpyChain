@@ -37,18 +37,18 @@ app.use(
   })
 );
 
+app.set("trust proxy", 1); // trust first proxy
 app.use(
   session({
-    store: store,
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    proxy: true, // Required for Heroku & Digital Ocean (regarding X-Forwarded-For)
+    store: store,
     cookie: {
-      // httpOnly: true,
-      secure: true,
       maxAge: 1000 * 60 * 60 * 48,
       sameSite: "none",
+      secure: true,
+      httpOnly: true,
     },
   })
 );

@@ -227,7 +227,11 @@ const Transactions = ({
               <h1 className="text-sm text-gray-700">{`${transactionsAsset.name} (${transactionsAsset.symbol}) Balance`}</h1>
             </div>
             <div className="flex flex-row items-center py-1">
-              <img className="w-8 h-8 mr-2" src={transactionsAsset.img} />
+              <img
+                alt="asset"
+                className="w-8 h-8 mr-2"
+                src={transactionsAsset.img}
+              />
               {calculateTotalHoldings(transactionsAsset) >= 1 ? (
                 <h1 className="font-bold text-2xl">{`${
                   currency.sign
